@@ -16,7 +16,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
+      
+      # <-- ¡ARREGLO AQUÍ! Este bloque estaba indentado incorrectamente
       - name: Construir y subir imagen a Docker Hub
         uses: docker/build-push-action@v4
         with:
