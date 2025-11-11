@@ -17,13 +17,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
-      # <-- ¡ARREGLO AQUÍ! Este bloque estaba indentado incorrectamente
       - name: Construir y subir imagen a Docker Hub
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
-          # Asegúrate que tu repo se llame 'aws_practica' o cambia esto
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/aws_practica:latest
 
   deploy:
@@ -38,14 +36,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            # 1. Descarga la imagen más nueva
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/aws_practica:latest
-            
-            # 2. Detiene el contenedor si ya existe
             docker stop hola-mundo-container || true
-            
-            # 3. Elimina el contenedor si ya existe
             docker rm hola-mundo-container || true
-            
-            # 4. Corre el nuevo contenedor
             docker run -d -p 80:80 --name hola-mundo-container ${{ secrets.DOCKERHUB_USERNAME }}/aws_practica:latest
